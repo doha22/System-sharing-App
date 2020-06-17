@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+html{
+  height:100%;
+  margin: 0;
+}
+body {
+  position: relative;
+  height:100%;
+}
+.page-footer {
+  bottom: 0px;
+  color: #fff;
+}
+
+.page-footer .footer-copyright {
+  overflow: hidden;
+  color: rgba(255,255,255,0.6);
+  background-color: rgba(0,0,0,0.2);
+}
+footer{
+   bottom: 0px; 
+  background-color: black;
+
+  position:fixed;
+  width: 100%;
+  left:0px;
+  margin-top:auto; 
+}
+nav{
+  left:0px;
+  right:0px;
+  width:100%;
+}
+
