@@ -66,3 +66,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### `Project is about` sharing material between users
+user can :
+    upload file with ext(.pdf , .txt , .png , .jpeg , .pdf )  and category name 
+    see list of uploaded materials with info of each material
+    filter between the files with category name
+    can download material
+
