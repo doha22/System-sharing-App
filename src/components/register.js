@@ -66,20 +66,18 @@ export default class Register extends Component {
                password : this.state.password
  
              }
-          //    onSubmitLogin = () => {
-             
-          //         return  <Redirect  to="/login" />
-             
-          //  } 
-
-      //  const formData = new FormData()
-      //  formData.append('profileImg', result)
-
+         
         axios.post("http://localhost:8888/register", (result)) 
         .then(
+           // this.routeChange();
           res => {
-            console.log(res);
+            console.log(res.data);
+          
+            sessionStorage.setItem('username',res.data.users.fullName);
+            console.log(sessionStorage.getItem('username'))  ;
+           this.routeChange();
         })
+    
     }
 
 

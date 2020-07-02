@@ -6,7 +6,9 @@ export default class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/list_upload_info" className="navbar-brand">View Materials</Link>
+        <Link to="/create_post" className="navbar-brand">Create Question</Link>
+
+        <Link to="/list_upload_info" className="navbar-brand">View Uploads Materials</Link>
         <div className="collpase navbar-collapse">
         <ul className="navbar-nav mr-auto">
           

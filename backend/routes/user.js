@@ -41,27 +41,7 @@ router.route('/register').post((req, res) => {
     
        })
 
-// newuser.save((err, result) => {
-//         if (!err){
-//             res.send(result);
-//             res.status(200).send(['registered successfully']) ;
-//              // redirect to login page
-//          } else {
-//             if (err.code == 11000)
-//                 res.status(422).send(['Duplicate email adrress found.']);
-//             else
-//                 return next(err);
-//              //   res.status(500).send(['something went wrong'])
-               
-//         }
-//     });
 
-// user.create(newuser, function(err, result) {
-//   if(err) return res.status("error");
-//   req.session.user = email;
-//   return res.send('Logged In!');
-
-// });
 newuser.save(function(err,saveduser){
 if(err){
   console.log(err);
@@ -71,8 +51,12 @@ if(err){
  
 //     res.status(422).send(['Duplicate email adrress found.']);
 // }
-   res.status(200).send("successfully signup");
+   res.status(200).json({ 
+    message: "User Successfully Signup ",
+    users: saveduser
+});
    sess = req.session;
+   ses = req.body.fullName ;  // set session for username
    sess.email = req.body.email;  // set session for email
    return res.redirect("/login");
 
@@ -100,21 +84,6 @@ router.use((err, req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
  
-    //   user.findOne({Email: email, Pass: password}, function(err, user) {
-    //    if(err) return next(err);
-    //    if(!user) return res.send('Not logged in!');
- 
-    //    //req.session.user = email;
-    //    return res.send('Logged In!');
-    // });
-    
-
-    // if(email == loggedUser.email && password == loggedUser.password){
-    //     res.status(200).send(['User Successfully logged in ']);
-    // }
-    // else{
-    //     res.status(200).send(['email or password were wrong  ']);
-    // }
   user.findOne({email : email , password : password}, function(err,user) {
 
     if(err){
@@ -129,26 +98,18 @@ router.use((err, req, res, next) => {
 sess = req.session;
 sess.email = req.body.email;  // set session for email
 
- 
 
-  return res.status(200).send("User Successfully logged in ")
-
+  return res.status(200).json({ 
+    message: "User Successfully logged in ",
+    users: user
+});
   })
 
  });
 
 
-//  newmaterial.save()
-//  .then(users => res.json('material added successfuly'))
-//  .catch(err => res.status(400).json('Error: ' + err));
-// });
 
-// router.route('/logout').get( function (req, res) {
-//     //req.session.user = null;
-//     req.logout();
-//   res.send(401);
-//    // res.status(200).send(['User Successfully logged out']);
-//  });
+
 router.route('/logout').get((req,res) => {
     req.session.destroy((err) => {
         if(err) {

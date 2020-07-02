@@ -15,6 +15,11 @@ import Register from "./components/register" ;
 import Login from "./components/login";
 import FilesUploadComponent from "./components/file_upload_add" ;
 
+import Posts from "./components/posts";
+import Comments from "./components/comments" ;
+
+import Profile from "./components/user_profile";
+
 import MaterialList from "./components/home";
 //import materialList from './components/home';
 
@@ -53,6 +58,14 @@ function App() {
 
 <div className="container">
 <Route path="/list_upload_info"  component={MaterialList} />
+
+<Route path="/create_post" component={Posts} />
+<Route path="/view_comments" component={Comments} />
+
+<Route path="/view_profile" component={Profile} />
+
+
+
 
 </div>
 

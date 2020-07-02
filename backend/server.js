@@ -12,6 +12,9 @@ bodyParser = require('body-parser');
 const express = require('express') ;
 
 const app = express();
+const fs = require("fs");
+
+const fileUpload = require('express-fileupload');
 
 const session = require('express-session');
 // this is middleware
@@ -20,9 +23,9 @@ app.use(cors());
 // used to parse json
 // app.use(express.json());
 
-// app.use(bodyParser.urlencoded({
-//   extended: false
-// }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 app.use(bodyParser.urlencoded({extended: true})  );
 app.use(bodyParser.json()) ;
@@ -31,18 +34,8 @@ app.use(bodyParser.json()) ;
 app.use(session({secret: 'SECRET', saveUninitialized: false,
 resave: false}));
 
-// for errors
-// process.on('unhandledRejection', function (err) {
-//   throw err;
-// });
-// process.on('uncaughtException', function (err) {
-//   console.error(err.stack); process.exit(1);
-// });
-
 
 // mongodb connection 
-
-
 
 try{
 
@@ -67,29 +60,44 @@ app.use(session({secret: "SECRET",
 saveUninitialized: false,
 resave: false}));
 
-const uploadFile = require('./routes/upload');
+
+// use fileupload with using multer
+app.use(fileUpload({
+  createParentPath: true
+}));
+
+const uploadFile = require('./routes/upload');   /// be hold
 
 const registeration = require('./routes/user') ;
-
-//const list_materials = require('./routes/home');
-
-// const login  = require('./routes/login');
-// const logout = require('./routes/logout');
+const blog = require('./routes/blog');
 
 
-//public folder
 
-//app.use('/public', express.static('public'));
-// app.use('/api', api) ;
+//public folder  
 app.use(express.static(__dirname + '/public/uploads'));
 
-//app.use('/materials', materialRouter);
 
-app.use('/uploads', uploadFile);
+
+// for session
+function requireLogin (req, res, next) {
+  if (!req.user) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+};
+
+
+
+
+
+ app.use('/uploads', uploadFile);       /// be hold
+
+
 
 app.use(registeration);
 
-//app.use(list_materials);
+app.use(blog);
 
 // app.use('/login',login);
 // app.use('/logout',logout);
@@ -100,21 +108,14 @@ app.use(registeration);
 
 
 
-// app.use((req, res, next) => {
-//   // Error goes via `next()` method
-//   // setImmediate(() => {
-//   //     next(new Error('Something went wrong'));
-//   // });
-// });
-
 //for errors , it will return the status
-app.use(function (err, req, res) {
-  console.error("you have error is "+err.message);
-  if (!err.statusCode) err.statusCode = 500;
-  //res.status(err.statusCode).send(err.message);
-  console.error("status error code is "+err.statusCode +" "+ err.messag );
+// app.use(function (err, req, res) {
+//   console.error("you have error is "+err.message);
+//   if (!err.statusCode) err.statusCode = 500;
+//   //res.status(err.statusCode).send(err.message);
+//   console.error("status error code is "+err.statusCode +" "+ err.messag );
  
-});
+// });
 
 
 

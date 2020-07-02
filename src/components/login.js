@@ -10,6 +10,7 @@ import 'mdbreact/dist/css/mdb.css' ;
 //import { BrowserRouter, Route } from 'react-router-dom'
 import '../App.css';
 import {MDBRow,  MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody} from 'mdbreact';
+//import { Redirect } from 'react-router-dom';
 
 export default class Register extends Component {
 
@@ -35,7 +36,7 @@ export default class Register extends Component {
 
      routeChange = () =>{ 
     
-    this.props.history.push("/list_upload_info");
+    this.props.history.push("/create_post");
   }
 
     onChangeEmail(e) {
@@ -58,12 +59,17 @@ export default class Register extends Component {
                password : this.state.password
  
              }
-         
 
         axios.post("http://localhost:8888/login", (result)) 
         .then(
           res => {
-            console.log(res);
+            console.log(res.data);
+            console.log("username "+res.data.users.fullName);
+
+            sessionStorage.setItem('username',res.data.users.fullName);
+            console.log(sessionStorage.getItem('username')) ;
+            this.routeChange();
+          
         })
     }
 
@@ -112,7 +118,7 @@ export default class Register extends Component {
                 <div className="text-center ">
                  
 <MDBBtn color="primary" 
-               onClick={this.routeChange}
+               onClick={this.onSubmit}
                   >
                   Login
                   </MDBBtn>

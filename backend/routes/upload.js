@@ -44,8 +44,11 @@ const storage = multer.diskStorage({
    
         // const fileName = file.originalname.toLowerCase().split(' ').join('-');
         // cb(null, uuidv4() + '-' + fileName);
-        var ext = file.originalname.split('.').pop();
-            cb(null, file.fieldname + '-' + Date.now() + '.' + ext);
+
+
+        // var ext = file.originalname.split('.').pop();
+        //     cb(null, file.fieldname + '-' + Date.now() + '.' + ext);
+        cb(null, Date.now() + '-' +file.originalname )
     }
 });
 
@@ -62,56 +65,75 @@ var upload = multer({
 });
 //var file_uploaded_name =  upload.fileFilter.filename ;
 
+var upload = multer({ storage: storage }).single('profileImg')
+router.route('/upload_files').post(function(req, res) {
+     
+    upload(req, res, function (err) {
+        if (err instanceof multer.MulterError) {
+            console.log("status 500"+err)
+            return res.status(500).json(err)
+        } else if (err) {
+            console.log("status 500"+err)
+            return res.status(500).json(err)
+        }
+        // else if (!req.file){
+        //     console.log(req.body.name);
+        //     return console.log('Please upload a file');} 
+        console.log("status 200")
+   return res.status(200).send(req.file)
+
+ })
 
 
-router.route('/uploadFile').post(upload.single('profileImg'), (req, res, next) => {
+});
 
-   
-   // var fileName = "C:\\Python27\\ArcGIS10.2\\python.exe";
-    //var file = path.basename(fileName);
 
-    const url = req.protocol + '://' + req.get('host');
-  //  var file_name = path.basename(fileName);
-    const upload_info = new uploads({
-        description : req.body.description ,
-        category_name : req.body.category_name  ,
-      _id: new mongoose.Types.ObjectId(),
-      //productImage: req.file ,
-     //   name: req.body.name,
-        profileImg: url + '/public/uploads/' + req.file
-      // profileImg : req.body.profileImg
-    //   profileImg: url + '/public/uploads/' + req.body.profileImg
+
+///////////////////////////////////////////////////////////////
+
+
+// router.route('/uploadFile').post(upload.single('profileImg'), (req, res, next) => {
+
+//     const url = req.protocol + '://' + req.get('host');
+//   //  var file_name = path.basename(fileName);
+//     const upload_info = new uploads({
+//         description : req.body.description ,
+//         category_name : req.body.category_name  ,
+//     //  _id: new mongoose.Types.ObjectId(),
+    
+//       productImage: req.file ,
+//      //   name: req.body.name,
+//      //   profileImg: url + '/public/uploads/' + req.file
+//       // profileImg : req.body.profileImg
+//     //   profileImg: url + '/public/uploads/' + req.body.profileImg
        
-    });
-   console.log(url + '/public/uploads/' + JSON.stringify(req.file));
+//     });
+ 
+//    //file name
+//  //console.log("file name  : "+path.basename(url + '/public/uploads/' + req.file));
 
+//    if (!req.file){return console.log('Please upload a file');} 
 
-
-   //file name
- //console.log("file name  : "+path.basename(url + '/public/uploads/' + req.file));
-
-   if (!req.file){return console.log('Please upload a file');} 
-
-    upload_info.save().then(result => {
-        res.status(201).json({
-            message: "Uploaded successfully!",
-            //userCreated: 
-              //  _id: result._id,
-                data:{
-                _id: result._id,
-                name :  result.category_name ,
-                description :  result.description ,
-                file_name : result.profileImg 
+//     upload_info.save().then(result => {
+//         res.status(201).json({
+//             message: "Uploaded successfully!",
+//             //userCreated: 
+//               //  _id: result._id,
+//                 data:{
+//                 _id: result._id,
+//                 name :  result.category_name ,
+//                 description :  result.description ,
+//                 file_name : result.profileImg 
         
-            }
-        });
-    }).catch(err => {
-        console.log(err),
-            res.status(500).json({
-                error: err
-            });
-    });
-})
+//             }
+//         });
+//     }).catch(err => {
+//         console.log(err),
+//             res.status(500).json({
+//                 error: err
+//             });
+//     });
+// })
 
 
 

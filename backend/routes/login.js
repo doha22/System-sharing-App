@@ -11,21 +11,7 @@ router.route('/login').post( (req, res)=> {
     const email = req.body.email;
     const password = req.body.password;
  
-    //   user.findOne({Email: email, Pass: password}, function(err, user) {
-    //    if(err) return next(err);
-    //    if(!user) return res.send('Not logged in!');
  
-    //    //req.session.user = email;
-    //    return res.send('Logged In!');
-    // });
-    
-
-    // if(email == loggedUser.email && password == loggedUser.password){
-    //     res.status(200).send(['User Successfully logged in ']);
-    // }
-    // else{
-    //     res.status(200).send(['email or password were wrong  ']);
-    // }
   user.findOne({email : email , password : password}, function(err,user) {
 
     if(err){
@@ -42,7 +28,10 @@ sess.email = req.body.email;  // set session for email
 
  
 
-  return res.status(200).send("User Successfully logged in ")
+  return res.status(200).json({
+    message: " User successfully login!",
+    users: user
+});
 
   })
 

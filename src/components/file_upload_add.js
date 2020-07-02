@@ -14,7 +14,7 @@ export default class FilesUploadComponent extends Component {
         this.state = {
             category_name : '',
             description : '',
-            profileImg: ''
+            profileImg:null
         }
     }
 
@@ -32,22 +32,28 @@ export default class FilesUploadComponent extends Component {
 
     onFileChange(e) {
         this.setState({ 
-            profileImg: e.target.file 
+            profileImg: e.target.files[0] ,
+            loaded: 0,
         })
     }
 
     onSubmit(e) {
         e.preventDefault()
+
+        const data = new FormData() 
+       // data.append('file', this.state.profileImg)
+
         const result = {
             category_name : this.state.category_name ,
                description: this.state.description,
-               profileImg : this.state.profileImg
+               profileImg :  data.append('file', this.state.profileImg)
  
              }
 
       //  const formData = new FormData()
       //  formData.append('profileImg', result)
 
+   
         axios.post("http://localhost:8888/uploads/uploadFile", (result)) 
         .then(res => {
             console.log(res)
@@ -78,7 +84,7 @@ export default class FilesUploadComponent extends Component {
                             <input type="file" name="profileImg" onChange={this.onFileChange}  />
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-primary" type="submit">Submit</button>
+                            <button className="btn btn-primary" type="submit" >Submit</button>
                         </div>
                     </form>
                 </div>

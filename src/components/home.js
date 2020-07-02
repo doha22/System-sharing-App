@@ -32,12 +32,13 @@ export default class MaterialList extends Component {
 
   // to get the list of data from db by using get method
   componentDidMount() {
+
     axios.get('http://localhost:8888/uploads/list_upload_info')
       .then(response => {
         
         this.setState({ users: response.data.users })
-        console.log('data retrived : '+response.data.users);
-        console.log("data"+this.state.users);
+       
+       
       })
       .catch((error) => {
         console.log(error);
@@ -128,6 +129,8 @@ renderProducts() {
               <th>Description</th>
               
               <th>Uploads </th>
+              <th>Edit</th>
+              <th> Delete</th>
             </tr>
           </thead>
           <tbody>
