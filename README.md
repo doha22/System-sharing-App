@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -75,3 +76,7 @@ user can :
     can download material
     using session in authentication 
 
+=======
+# First-Mean-Stack-App
+System sharing App
+>>>>>>> 28a4c970467139c8a7380fb1449178658cb050ad
