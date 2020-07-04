@@ -7,7 +7,9 @@ export default class Comments extends Component {
 
     constructor(props) {
         super(props);
-        // this.routeChange = this.routeChange.bind(this)
+        
+// to use the data which passed in the link
+        this.Q_id  = this.props.location.Q_id
 
         this.onChangetext = this.onChangetext.bind(this);
 
@@ -19,7 +21,9 @@ export default class Comments extends Component {
            // username : sessionStorage.getItem('username'),
             text: '' ,
            replies:[]  , // empty array
-            id : sessionStorage.getItem('id') 
+            id : sessionStorage.getItem('id') ,
+           // q_id : localStorage.getItem('Q_id') 
+           
         }
     }
 
@@ -35,8 +39,14 @@ export default class Comments extends Component {
 // get the user question & title
 
 componentDidMount(){
+
+  // use the question id which passed in the link 
+
+  
+  console.log("Q_id : "+this.Q_id)
+
 // id from creating post
-    axios.get("http://localhost:8888/category/"+this.state.id) 
+    axios.get("http://localhost:8888/category/"+this.Q_id) 
     .then(
       response => {
         this.setState({ title: response.data.title,
@@ -46,14 +56,18 @@ componentDidMount(){
         console.log(sessionStorage.getItem('username'));
     })
 
+
+
+
+
     // see other comments 
 
-    axios.get('http://localhost:8888/category/'+this.state.id)
+    axios.get('http://localhost:8888/category/'+this.Q_id)
       .then(response => {
         
         this.setState({ replies: response.data.comments })
         console.log("comments  :"+response.data.comments)
-       
+     //  console.log("ques_id : "+this.state.q_id)
       })
       .catch((error) => {
         console.log(error);
@@ -72,7 +86,7 @@ componentDidMount(){
                createdAt:Date.now()
  
              }
-        axios.post("http://localhost:8888/category/"+this.state.id ,(com) ) 
+        axios.post("http://localhost:8888/category/"+this.Q_id ,(com) ) 
         .then(
           res => {
             console.log("reply done");
@@ -88,7 +102,8 @@ componentDidMount(){
     ////////////////////////////////////////////////////
 
 // to list the others comments
-  rendercomments() {
+   rendercomments() {
+    if (typeof(this.Q_id) !== 'undefined' || this.Q_id != null) {
     return this.state.replies.map(item => {
       return (
         <tr key={item._id}>
@@ -102,6 +117,25 @@ componentDidMount(){
   
     })
   }
+    }
+  
+  render_Q_comments() {
+    if (typeof(this.Q_id) !== 'undefined' || this.Q_id != null) {
+    return this.state.replies.map(item => {
+      return (
+        <tr key={this._id}>
+          
+          <td>{item.username}</td>
+          <td>{item.text}</td>
+         
+        </tr>
+      );
+           
+  
+    })
+  }
+  // else alert message you should select title first
+}
 
     render() {
     
@@ -186,6 +220,7 @@ componentDidMount(){
           {/* {this.renderProducts()} */}
           {this.rendercomments()}
           {/* {renderItems} */}
+          {this.render_Q_comments()}
           </tbody>
         </table>
 

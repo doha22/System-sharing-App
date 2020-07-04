@@ -133,7 +133,17 @@ router.route("/category/:id").get(function(req, res) {
 });
 
 
+//// get all questions related to selected title
 
+router.route("/allCat/:title").get( function(req,res) {
+  category.find({title : req.params.title })
+  .then(function(cat) {
+    res.json(cat);
+  })
+  .catch(function(err) {
+    res.json(err);
+  })
+});
 
 
 

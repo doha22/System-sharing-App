@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import '../App.css';
+import { Link } from 'react-router-dom';
+
 //import { Redirect } from 'react-router-dom';
 
 export default class Posts extends Component {
 
     constructor(props) {
         super(props);
+
+        this.onChangeSelectTitle = this.onChangeSelectTitle.bind(this)
+
          this.routeChange = this.routeChange.bind(this)
 
        
@@ -43,6 +48,11 @@ export default class Posts extends Component {
         })
     }
 
+    onChangeSelectTitle(e){
+      this.setState({
+        title :e.target.value 
+      })
+    }
 
     onSubmit(e) {
         e.preventDefault()
@@ -81,22 +91,6 @@ export default class Posts extends Component {
          <div className="col-md-2"></div> 
         <div className="col-md-8">
 
-       
-
-
-
-                 {/* Search form  */}
-                 <form className="form-inline d-flex justify-content-center md-form form-sm active-pink-2 mt-2">
-      <input className="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
-        aria-label="Search" />
-      <i className="fas fa-search" aria-hidden="true"></i>
-    </form>
-    
-
-
-
-
-
         <div className="card">
         <form onSubmit={this.onSubmit} action="/" method="post">
   <div className="card-header">
@@ -106,18 +100,36 @@ export default class Posts extends Component {
   <div className="card-body">
   <label>Title :</label>  
 
-<input  type="text" name="title"  className="form-control"  onChange={this.onChangeTitle} value={this.state.title}  required></input>
+{/* <input  type="text" name="title"  className="form-control"  onChange={this.onChangeTitle} value={this.state.title}  required></input> */}
+<select name="title" className="form-control" onChange={this.onChangeSelectTitle}  >
+    <option value="N/A">N/A</option>
+    <option value="Html">Html</option>
+    <option value="Css">Css</option>
+    <option value="Js">Js</option>
+    <option value="Nodejs">Nodejs</option>
+    <option value="Java">Java</option>
+    <option value="C++">C++</option>
+    <option value="C#">C#</option>
+    <option value="Go">Go</option>
+    <option value="Reactjs">Reactjs</option>
+    <option value="Angular">Angular</option>
+    <option value="Machine learning">Machine learning</option>
+    <option value="Deap learning">Deap learning</option>
+    <option value="Nlp">Nlp</option>
+    <option value="Nlp">Automation</option>
+    <option value="Nlp">Network</option>
+    <option value="Nlp">Others</option>
+</select>
+{/* {this.state.title} */}
 
     <h5 className="card-title">Create your Question</h5>
     
     <p className="card-text">
     <input  type="text" name="question"  onChange={this.onChangeQustion}  className="form-control" value={this.state.question}  required></input>
-
-
     </p>
     
    <button className="btn btn-primary post_btn" type="submit">Post</button>
-   
+  
   </div>
   </form>
 
@@ -125,6 +137,8 @@ export default class Posts extends Component {
 
 
 <br></br>
+<p>Note: You Can see others questions and answers on selected title</p>
+<Link to="/view_question" >Show</Link>
 
 
 
